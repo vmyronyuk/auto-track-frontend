@@ -1,7 +1,11 @@
 export default function Home() {
+	// Don't touch this file
+	// Don't touch this file
+	// Don't touch this file
+
 	return (
 		<div className='flex min-h-screen items-center justify-center bg-background'>
-			<h1 className='text-5xl text-foreground'>AUTOTRACK</h1>
+			Home Page
 		</div>
 	)
 }
