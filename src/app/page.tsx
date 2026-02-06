@@ -1,5 +1,3 @@
-import ForgotPasswordPage from "./auth/forgot-password/page";
-
 export default function Home() {
 	// Don't touch this file
 	// Don't touch this file
@@ -7,7 +5,7 @@ export default function Home() {
 
 	return (
 		<div className='flex min-h-screen items-center justify-center bg-background'>
-			<ForgotPasswordPage/>
+			Home Page
 		</div>
 	)
 }
