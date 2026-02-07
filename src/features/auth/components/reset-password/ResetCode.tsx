@@ -5,13 +5,22 @@ import {
 	useCallback,
 	useMemo,
 	useRef,
+	useState,
 	type ClipboardEvent,
 	type KeyboardEvent,
 } from 'react'
 
-export function ResetCode() {
-	const codeSlots = useMemo(() => Array.from({ length: 6 }), [])
+type ResetCodeProps = {
+	length?: number
+	onComplete?: (code: string) => boolean | Promise<boolean>
+}
+
+export function ResetCode({ length = 6, onComplete }: ResetCodeProps) {
+	const codeSlots = useMemo(() => Array.from({ length }), [length])
 	const inputRefs = useRef<Array<HTMLInputElement | null>>([])
+	const [values, setValues] = useState(() => Array.from({ length }, () => ''))
+	const [status, setStatus] = useState<'valid' | 'invalid' | null>(null)
+	const validationIdRef = useRef(0)
 
 	const focusSlot = useCallback((index: number) => {
 		const next = inputRefs.current[index]
@@ -21,18 +30,45 @@ export function ResetCode() {
 		}
 	}, [])
 
+	const validateIfComplete = useCallback(
+		async (nextValues: string[]) => {
+			if (nextValues.some(value => value.length === 0)) {
+				return
+			}
+			if (!onComplete) {
+				return
+			}
+			const currentId = validationIdRef.current + 1
+			validationIdRef.current = currentId
+			const code = nextValues.join('')
+			const result = await onComplete(code)
+			if (validationIdRef.current === currentId) {
+				setStatus(result ? 'valid' : 'invalid')
+			}
+		},
+		[onComplete],
+	)
+
 	const handleChange = useCallback(
 		(index: number, value: string) => {
 			const normalized = value.replace(/\D/g, '').slice(0, 1)
-			const current = inputRefs.current[index]
-			if (current && current.value !== normalized) {
-				current.value = normalized
-			}
+			setValues(prev => {
+				if (prev[index] === normalized) {
+					return prev
+				}
+				const next = [...prev]
+				next[index] = normalized
+				if (status) {
+					setStatus(null)
+				}
+				validateIfComplete(next)
+				return next
+			})
 			if (normalized && index < codeSlots.length - 1) {
 				focusSlot(index + 1)
 			}
 		},
-		[codeSlots.length, focusSlot],
+		[codeSlots.length, focusSlot, status, validateIfComplete],
 	)
 
 	const handleKeyDown = useCallback(
@@ -53,16 +89,28 @@ export function ResetCode() {
 			const raw = event.clipboardData.getData('text').replace(/\D/g, '')
 			if (!raw) return
 			const chars = raw.slice(0, codeSlots.length).split('')
-			chars.forEach((char, index) => {
-				const input = inputRefs.current[index]
-				if (input) {
-					input.value = char
+			setValues(prev => {
+				const next = [...prev]
+				chars.forEach((char, index) => {
+					next[index] = char
+				})
+				if (status) {
+					setStatus(null)
 				}
+				validateIfComplete(next)
+				return next
 			})
 			focusSlot(Math.min(chars.length, codeSlots.length - 1))
 		},
-		[codeSlots.length, focusSlot],
+		[codeSlots.length, focusSlot, status, validateIfComplete],
 	)
+
+	const statusClassName =
+		status === 'valid'
+			? 'border-emerald-500 focus-visible:border-emerald-500 focus-visible:ring-emerald-500'
+			: status === 'invalid'
+				? 'border-destructive focus-visible:border-destructive focus-visible:ring-destructive'
+				: ''
 
 	return (
 		<div className='flex items-center justify-center gap-2'>
@@ -73,7 +121,7 @@ export function ResetCode() {
 					inputMode='numeric'
 					maxLength={1}
 					placeholder=''
-					className='h-13 w-12 text-center text-xl font-bold px-0'
+					className={`h-13 w-12 text-center text-xl font-bold px-0 ${statusClassName}`}
 					aria-label={`Код позиція ${index + 1}`}
 					ref={node => {
 						inputRefs.current[index] = node
@@ -81,6 +129,7 @@ export function ResetCode() {
 					onChange={event => handleChange(index, event.target.value)}
 					onKeyDown={event => handleKeyDown(index, event)}
 					onPaste={handlePaste}
+					value={values[index]}
 				/>
 			))}
 		</div>
