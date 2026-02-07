@@ -13,9 +13,14 @@ import {
 type ResetCodeProps = {
 	length?: number
 	onComplete?: (code: string) => boolean | Promise<boolean>
+	onChange?: (code: string) => void
 }
 
-export function ResetCode({ length = 6, onComplete }: ResetCodeProps) {
+export function ResetCode({
+	length = 6,
+	onComplete,
+	onChange,
+}: ResetCodeProps) {
 	const codeSlots = useMemo(() => Array.from({ length }), [length])
 	const inputRefs = useRef<Array<HTMLInputElement | null>>([])
 	const [values, setValues] = useState(() => Array.from({ length }, () => ''))
@@ -52,23 +57,22 @@ export function ResetCode({ length = 6, onComplete }: ResetCodeProps) {
 	const handleChange = useCallback(
 		(index: number, value: string) => {
 			const normalized = value.replace(/\D/g, '').slice(0, 1)
-			setValues(prev => {
-				if (prev[index] === normalized) {
-					return prev
-				}
-				const next = [...prev]
-				next[index] = normalized
-				if (status) {
-					setStatus(null)
-				}
-				validateIfComplete(next)
-				return next
-			})
+			if (values[index] === normalized) {
+				return
+			}
+			const nextValues = [...values]
+			nextValues[index] = normalized
+			setValues(nextValues)
+			if (status) {
+				setStatus(null)
+			}
+			validateIfComplete(nextValues)
+			onChange?.(nextValues.join(''))
 			if (normalized && index < codeSlots.length - 1) {
 				focusSlot(index + 1)
 			}
 		},
-		[codeSlots.length, focusSlot, status, validateIfComplete],
+		[codeSlots.length, focusSlot, onChange, status, validateIfComplete, values],
 	)
 
 	const handleKeyDown = useCallback(
@@ -89,20 +93,19 @@ export function ResetCode({ length = 6, onComplete }: ResetCodeProps) {
 			const raw = event.clipboardData.getData('text').replace(/\D/g, '')
 			if (!raw) return
 			const chars = raw.slice(0, codeSlots.length).split('')
-			setValues(prev => {
-				const next = [...prev]
-				chars.forEach((char, index) => {
-					next[index] = char
-				})
-				if (status) {
-					setStatus(null)
-				}
-				validateIfComplete(next)
-				return next
+			const nextValues = [...values]
+			chars.forEach((char, index) => {
+				nextValues[index] = char
 			})
+			setValues(nextValues)
+			if (status) {
+				setStatus(null)
+			}
+			validateIfComplete(nextValues)
+			onChange?.(nextValues.join(''))
 			focusSlot(Math.min(chars.length, codeSlots.length - 1))
 		},
-		[codeSlots.length, focusSlot, status, validateIfComplete],
+		[codeSlots.length, focusSlot, onChange, status, validateIfComplete, values],
 	)
 
 	const statusClassName =
