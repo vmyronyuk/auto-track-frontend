@@ -20,16 +20,11 @@ export async function signInAction(data: SignInDto) {
 		throw new Error(text || 'Sign-in failed')
 	}
 
-	
-	const text = await res.text()
-	let json: SignInResponse | null = null
+	const result = (await res.json()) as Partial<SignInResponse>
 
-	if (text) {
-		json = JSON.parse(text)
+	if (!result.accessToken || typeof result.accessToken !== 'string') {
+		throw new Error('Sign-in response does not contain accessToken')
 	}
 
-	return {
-		ok: res.ok,
-		token: json?.accessToken ?? null,
-	}
+	return { accessToken: result.accessToken }
 }

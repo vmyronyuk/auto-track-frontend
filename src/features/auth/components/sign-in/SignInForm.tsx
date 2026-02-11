@@ -25,9 +25,8 @@ export function SignInForm() {
 	})
 
 	const onSubmit = async (data: SignInDto) => {
-		const res = await signInAction(data)
-
-		setAuthToken(res.token)
+		const { accessToken } = await signInAction(data)
+		setAuthToken(accessToken)
 		router.push('/cars')
 	}
 
