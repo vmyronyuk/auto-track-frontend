@@ -15,7 +15,7 @@ export function ForgotPassword() {
                 />
                 <ForgotPasswordForm />
                 <div className='flex items-center gap-1.5'>
-                    <Link href='/auth/login' className='text-sm text-muted-foreground'>
+                    <Link href='/auth/sign-in' className='text-sm text-muted-foreground'>
                         ⭠ Повернутись до входу
                     </Link>
                 </div>
