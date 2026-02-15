@@ -1,16 +1,16 @@
 'use client'
 
+import { Error } from '@/src/components/Form/Error'
 import { Field } from '@/src/components/Form/Field'
 import { Label } from '@/src/components/Form/Label'
 import { Button } from '@/src/components/ui/button'
 import { Input } from '@/src/components/ui/input'
-import { Error } from '@/src/components/Form/Error'
+import { setAuthToken } from '@/src/lib/authToken'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { signInAction } from '../../actions/sign-in'
 import { SignInDto, SignInDtoScema } from '../../dtos/sign-in.dto'
-import { setAuthToken } from '@/src/lib/authToken'
 
 export function SignInForm() {
 	const router = useRouter()
@@ -41,7 +41,8 @@ export function SignInForm() {
 					<Input
 						{...register('email')}
 						type='email'
-						placeholder='user@example.com' />
+						placeholder='user@example.com'
+					/>
 					{errors.email?.message && <Error error={errors.email.message} />}
 				</Field>
 				<Field>
@@ -49,8 +50,11 @@ export function SignInForm() {
 					<Input
 						{...register('password')}
 						type='password'
-						placeholder='Password' />
-					{errors.password?.message && <Error error={errors.password.message} />}
+						placeholder='Password'
+					/>
+					{errors.password?.message && (
+						<Error error={errors.password.message} />
+					)}
 				</Field>
 				{errors.root?.message && (
 					<p className=' text-sm text-red-500'>{errors.root.message}</p>
