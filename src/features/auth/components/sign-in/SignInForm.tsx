@@ -7,6 +7,7 @@ import { Button } from '@/src/components/ui/button'
 import { Input } from '@/src/components/ui/input'
 import { setAuthToken } from '@/src/lib/authToken'
 import { zodResolver } from '@hookform/resolvers/zod'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { signInAction } from '../../actions/sign-in'
@@ -56,6 +57,14 @@ export function SignInForm() {
 						<Error error={errors.password.message} />
 					)}
 				</Field>
+				<div className='flex justify-end'>
+					<Link
+						href='/auth/forgot-password'
+						className='text-sm text-muted-foreground underline'
+					>
+						Забули пароль?
+					</Link>
+				</div>
 				{errors.root?.message && (
 					<p className=' text-sm text-red-500'>{errors.root.message}</p>
 				)}
