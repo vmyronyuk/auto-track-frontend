@@ -1,14 +1,6 @@
 import { CarCardWrapper } from '../CarCardWrapped'
 import { CarCardForm } from './CarCardForm'
-
-type Car = {
-  id: string
-  image: string
-  year: number
-  title: string
-  description: string
-  race: number
-}
+import { Car } from '../../types/car'
 
 type CarCardProps = {
   car: Car

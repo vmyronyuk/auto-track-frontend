@@ -3,10 +3,10 @@ import { Gauge } from 'lucide-react'
 type CarCardHeadereProps = {
     title: string
     description: string
-    race: number
+    mileage: number
 }
 
-export function CarCardHeader({ title, description ,race}: CarCardHeadereProps) {
+export function CarCardHeader({ title, description ,mileage}: CarCardHeadereProps) {
     return (
         <div className="flex flex-col gap-2 px-4 py-4">
             <div className='flex flex-col'>
@@ -15,7 +15,7 @@ export function CarCardHeader({ title, description ,race}: CarCardHeadereProps) 
             </div>
             <div className='flex items-end gap-2 '>
                 <Gauge className='size-5 text-muted-foreground'/>
-                <p className='text-sm text-muted-foreground'>{race} км</p>
+                <p className='text-sm text-muted-foreground'>{mileage} км</p>
             </div>
         </div>
     )
