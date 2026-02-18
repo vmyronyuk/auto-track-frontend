@@ -1,10 +1,19 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
+import { dirname } from 'path'
+import { fileURLToPath } from 'url'
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 const nextConfig = {
-  outputFileTracingRoot: __dirname,
-};
+	outputFileTracingRoot: __dirname,
+	images: {
+		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: 'images.unsplash.com',
+				pathname: '/**',
+			},
+		],
+	},
+}
 
-export default nextConfig;
+export default nextConfig
