@@ -6,8 +6,6 @@ import {
     SelectValue
 } from '@/src/components/ui/select'
 
-
-
 export function BrandFilter() {
     return (
         <div>

@@ -9,7 +9,7 @@ import {
 
 export function YearFilter() {
     return (
-        <div >
+        <div>
             <Select>
                 <SelectTrigger>
                     <SelectValue placeholder='Всі роки' />
