@@ -1,4 +1,4 @@
-const API_BASE = process.env.BACKEND_URL
+const API_BASE = process.env.NEXT_PUBLIC_BACKEND_URL
 
 export function requireApiBase() {
 	if (!API_BASE) {
