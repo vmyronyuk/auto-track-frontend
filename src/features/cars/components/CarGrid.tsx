@@ -1,8 +1,8 @@
-import { Car } from '../types/car'
+import { GetCarsDto } from '../dtos/get-car.dto'
 import { CarCard } from './car-card/CarCard'
 
 type CarGridProps = {
-	cars: Car[]
+	cars: GetCarsDto
 }
 
 export function CarGrid({ cars }: CarGridProps) {

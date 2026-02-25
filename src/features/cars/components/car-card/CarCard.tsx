@@ -1,11 +1,11 @@
 import Image from 'next/image'
-import { Car } from '../../types/car'
+import { GetCarDto } from '../../dtos/get-car.dto'
 import { CarCardHeader } from './CarCardHeader'
 import { CarCardWrapper } from './CarCardWrapper'
 import { CarYearBadge } from './CarYearBadge'
 
 type CarCardProps = {
-	car: Car
+	car: GetCarDto
 }
 
 export function CarCard({ car }: CarCardProps) {
@@ -15,8 +15,8 @@ export function CarCard({ car }: CarCardProps) {
 				<div className='relative aspect-video w-full'>
 					<CarYearBadge year={car.year} />
 					<Image
-						src={car.image}
-						alt={car.title}
+						src={car.imageUrl ?? ''}
+						alt={car.model}
 						className='object-cover w-full h-full rounded-t-xl border-b border-primary/25'
 						width={500}
 						height={500}
@@ -24,8 +24,8 @@ export function CarCard({ car }: CarCardProps) {
 				</div>
 
 				<CarCardHeader
-					title={car.title}
-					description={car.description}
+					title={car.brand + ' ' + car.model}
+					description={car.description ?? ''}
 					mileage={car.mileage}
 				/>
 			</div>
