@@ -1,4 +1,6 @@
+import SignInPage from "./auth/sign-in/page";
 import CarsPage from "./cars/page";
+import UiPage from "./ui/page";
 
 export default function Home() {
 	// Don't touch this file
@@ -7,7 +9,7 @@ export default function Home() {
 
 	return (
 		<div className='flex min-h-screen items-center justify-center'>
-			<CarsPage/>
+			<SignInPage/>
 		</div>
 	)
 }
