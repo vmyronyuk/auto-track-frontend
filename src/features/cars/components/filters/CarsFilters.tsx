@@ -4,6 +4,7 @@ import { Button } from '@/src/components/ui/button'
 import { Input } from '@/src/components/ui/input'
 import { BrandFilter } from './BrandFilter'
 import { YearFilter } from './YearFilter'
+import Link from 'next/link'
 
 export function CarsFilters() {
 	return (
@@ -15,7 +16,9 @@ export function CarsFilters() {
 					<BrandFilter />
 					<YearFilter />
 				</div>
-				<Button className='rounded-sm flex-1'>+ Додати машину</Button>
+				<Link href='/cars/new' >
+					<Button className='rounded-sm flex-1'>+ Додати машину</Button>
+				</Link>
 			</div>
 		</div>
 	)
