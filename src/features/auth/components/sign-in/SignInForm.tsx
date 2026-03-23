@@ -57,7 +57,7 @@ export function SignInForm() {
 						<Error error={errors.password.message} />
 					)}
 				</Field>
-				<div className='flex justify-end'>
+				<div className='flex justify-center'>
 					<Link
 						href='/auth/forgot-password'
 						className='text-sm text-muted-foreground underline'

@@ -14,7 +14,7 @@ export const CreateCarDtoScema = z.object({
 	price: z
 		.number({ error: 'Вкажіть ціну' })
 		.min(0, 'Ціна не може бути відʼємною'),
-	imageUrl: z.url('Некоректний URL зображення').optional(),
+	imageUrl: z.string().optional(),
 	description: z
 		.string()
 		.trim()

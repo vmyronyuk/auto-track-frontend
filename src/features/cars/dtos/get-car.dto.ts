@@ -4,9 +4,9 @@ export const GetCarDtoSchema = z.object({
 	id: z.union([z.string(), z.number()]),
 	brand: z.string(),
 	model: z.string(),
-	year: z.number(),
-	mileage: z.number(),
-	price: z.number(),
+	year: z.coerce.number(),
+	mileage: z.coerce.number(),
+	price: z.coerce.number(),
 	imageUrl: z.string().url().optional().nullable(),
 	description: z.string().optional().nullable(),
 })

@@ -8,6 +8,8 @@ type CarCardProps = {
 	car: GetCarDto
 }
 
+const FALLBACK_IMAGE = '/default-car.jpg';
+
 export function CarCard({ car }: CarCardProps) {
 	return (
 		<CarCardWrapper>
@@ -15,7 +17,7 @@ export function CarCard({ car }: CarCardProps) {
 				<div className='relative aspect-video w-full'>
 					<CarYearBadge year={car.year} />
 					<Image
-						src={car.imageUrl ?? ''}
+						src={car.imageUrl || FALLBACK_IMAGE}
 						alt={car.model}
 						className='object-cover w-full h-full rounded-t-xl border-b border-primary/25'
 						width={500}
