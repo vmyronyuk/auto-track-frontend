@@ -6,7 +6,7 @@ export default async function CarsPage() {
 	const cars = await getAllCarsAction()
 
 	return (
-		<div className='flex min-h-screen justify-center items-center bg-background py-8 flex-col gap-8'>
+		<div className='flex min-h-screen justify-center items-start bg-background py-8 flex-col gap-8'>
 			<CarsHeader />
 			<CarGrid cars={cars} />
 			{cars.length === 0 && <h1 className='text-3xl font-bold'>Немає машин</h1>}

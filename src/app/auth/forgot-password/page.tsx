@@ -2,7 +2,7 @@ import { ForgotPassword } from '@/src/features/auth/components/forgot-password/F
 
 export default function ForgotPasswordPage() {
     return (
-        <div className='flex min-h-screen min-w-screen items-center justify-center bg-background'>
+        <div className='flex min-h-screen max-w-screen items-center justify-center bg-background'>
             <ForgotPassword />
         </div>
     )
